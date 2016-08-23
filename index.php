@@ -7,7 +7,6 @@
         private $token = ''; //public access token here
 
         public function __construct() {
-
             $this->count = $count;
 
             try {
@@ -15,35 +14,23 @@
                 $this->result = json_decode($this->fetch('https://api.instagram.com/v1/users/search?q='.$this->user_id.'&access_token='.$this->token));
 
                 if(isset($this->result->meta->error_message)) {
-
                     $this->error = $this->result->meta->error_message;
-
                 } else {
-
                     $this->result = $this->result->data;
-
                 }
 
             } catch(Exception $e) {
-
                 $this->error = 'Unable to Fetch Data from Instagram';
-
             };
-
         }
 
         public function fetch($url) {
 
             try {
-
                 $last_modified = filemtime(DOCROOT.'/data/instagram.json');
-
                 if(time() - $last_modified < (60 * 15)) {
-
                     $result = file_get_contents(DOCROOT.'/data/instagram.json');
-
                     return $result;
-
                 }
 
             } catch(Exception $e){};
@@ -58,7 +45,6 @@
             file_put_contents(DOCROOT.'/data/instagram.json', $result);
 
             return $result;
-
         }
 
     }
@@ -66,7 +52,6 @@
     $insta = new Instagram();
 
 ?>
-
 
 <div class="instagram">
 
@@ -77,7 +62,6 @@
             <button type="submit" class="btn btn--green" title="Submit">Submit</button>
         </p>
     </form>
-
 
     <? if(!empty($_POST) && isset($insta->result->data)): ?>
 
@@ -92,7 +76,6 @@
             </thead>
             <tbody>
 
-
             <? foreach ($insta->result->data as $key => $data): ?>
 
                     <tr>
@@ -103,7 +86,6 @@
                     </tr>
 
            <? endforeach; ?>
-
 
             </tbody>
         </table>
